@@ -1,6 +1,20 @@
 #include "binary_trees.h"
 
 /**
+ * tree_size - Counts the nodes in a binary tree
+ * @tree: Pointer to the root node
+ *
+ * Return: Number of nodes in the tree
+ */
+static size_t tree_size(const binary_tree_t *tree)
+{
+	if (tree == NULL)
+		return (0);
+
+	return (1 + tree_size(tree->left) + tree_size(tree->right));
+}
+
+/**
  * check_heap - Checks completeness and max-heap ordering
  * @tree: Pointer to the current node
  * @index: Expected array index of the current node
@@ -34,11 +48,8 @@ static int check_heap(const binary_tree_t *tree, size_t index, size_t size)
  */
 int binary_tree_is_heap(const binary_tree_t *tree)
 {
-	size_t size;
-
 	if (tree == NULL)
 		return (0);
 
-	size = binary_tree_size(tree);
-	return (check_heap(tree, 0, size));
+	return (check_heap(tree, 0, tree_size(tree)));
 }
